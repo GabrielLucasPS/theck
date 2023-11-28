@@ -2,8 +2,8 @@ import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import { Button, buttonVariants } from './ui/button';
-import UserAccountnav from './userAccountnav';
 import Roleteste from './roleteste';
+import { signOut } from 'next-auth/react';
 
 const Navbar = async () => {
     const session = await getServerSession(authOptions);
@@ -50,7 +50,13 @@ const Navbar = async () => {
 
                     <div>
                         {session?.user ? (
-                            <UserAccountnav />
+                            <div>
+                                <Button onClick={() => signOut({
+                                    redirect: true,
+                                    callbackUrl: `${window.location.origin}/sign-in`
+                                })} variant='destructive' >Sair</Button>
+                            </div>
+
                         ) : (
                             <Link className={buttonVariants()} href='/sign-in'>
                                 Entrar
